@@ -5,6 +5,9 @@ const Stage = () => {
   return (
     <div className='stage'>
       <Header />
+      <div className="stage__interactiveStage">
+        hello stage
+      </div>
     </div>
   )
 }

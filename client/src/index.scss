@@ -206,7 +206,7 @@ button:active, .button:active {
 
 .dijkstraStage {
   height: calc(100vh - var(--header-height));
-  padding: 1rem;
+  // padding: 1rem;
   background-color: var(--input-color);
   display: grid;
   // gap: 0.005rem;
