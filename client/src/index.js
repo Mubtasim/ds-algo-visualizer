@@ -1,13 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import DsList from './components/DsList';
+import Stage from './components/Stage';
+import Dijkstra from './components/Dijkstra';
+
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />
+    },
+    {
+      path: "/dslist",
+      element: <DsList />
+    },
+    {
+      path: "/stage",
+      element: <Stage />
+    },
+    {
+      path: "/1",
+      element: <Dijkstra />
+    }
+  ]
+)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
