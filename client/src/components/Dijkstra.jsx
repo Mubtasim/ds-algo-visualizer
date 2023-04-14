@@ -6,6 +6,11 @@ import Header from './Header'
 // import { createGraph, addLink } from '../features/graph/graphSlice';
 
 const Dijkstra = () => {
+  const [totalNode, setTotalNode] = useState(-1)
+  const [minEdgeCount, setMinEdgeCount] = useState(-1)
+  const [maxEdgeCount, setMaxEdgeCount] = useState(-1)
+  const [minWeight, setMinWeight] = useState(-1)
+  const [maxWeight, setMaxWeight] = useState(-1)
   const [algoGraph, setAlgoGraph] = useState(null)
   const [visualGraph, setVisualGraph] = useState(null)
   const [startNode, setStartNode] = useState(-1)
@@ -20,30 +25,39 @@ const Dijkstra = () => {
     return Math.floor(Math.random() * (max - min) + min);
   }
 
-  function createAlgoGraph (nodeCount, minEdgeCount, maxEdgeCount, minWeight, maxWeight) {
-    nodeCount = Math.max(2, nodeCount);
-    maxEdgeCount = Math.min(maxEdgeCount, nodeCount - 1);
-    minEdgeCount = Math.max(1, minEdgeCount);
-    const newAlgoGraph = Array.from(Array(nodeCount), () => Array(0).fill(null));
-    for (let nodeIdx = 0; nodeIdx < newAlgoGraph.length; nodeIdx++) {
+  function isConnected (algoGraph, src, dest) {
+    const otherList = algoGraph[src];
+    for (let node of algoGraph) {
+      if (node.nodeIdx === dest) return true;
+    }
+    return false;
+  }
+
+  function getAlgoGraph () {
+    const newAlgoGraph = Array(totalNode);
+    for (let i = 0; i < totalNode; i++) {
+      newAlgoGraph[i] = [];
+    }
+    for (let nodeIdx = 0; nodeIdx < totalNode; nodeIdx++) {
       const nowList = newAlgoGraph[nodeIdx];
       while(nowList.length < minEdgeCount) {
-        const otherNodeIdx = getRandomInt(nodeCount);
-        if (otherNodeIdx === nodeIdx) continue;
+        const otherNodeIdx = getRandomInt(totalNode);
+        if (otherNodeIdx === nodeIdx || isConnected(newAlgoGraph, nodeIdx, otherNodeIdx)) continue;
         // console.log('nodeIdx, otherNodeIdx', nodeIdx, otherNodeIdx)
         const otherList = newAlgoGraph[otherNodeIdx];
-        if (otherList.length >= maxEdgeCount) continue;
+        if (otherList.length >= maxEdgeCount || isConnected(newAlgoGraph, otherNodeIdx, nodeIdx)) continue;
         const nowWeight = getRandomArbitrary(minWeight, maxWeight + 1);
-        if (!nowList.includes(otherNodeIdx))  nowList.push({nodeIdx: otherNodeIdx, weight: nowWeight});
-        if (!otherList.includes(nodeIdx)) otherList.push({nodeIdx: nodeIdx, weight: nowWeight});
+        console.log(nowWeight, minWeight, maxWeight);
+        nowList.push({nodeIdx: otherNodeIdx, weight: nowWeight});
+        otherList.push({nodeIdx: nodeIdx, weight: nowWeight});
       }
     }
+    // console.log(newAlgoGraph);
 
     return newAlgoGraph;
   }
 
-  function renderGraph(algoGraph) {
-    // Create an empty graph
+  function getNewVisualGraph(newAlgoGraph) {
     const graph = Viva.Graph.graph();
     const layout = Viva.Graph.Layout.forceDirected(graph, {
       springLength: 200, // Set desired spring length here
@@ -52,7 +66,7 @@ const Dijkstra = () => {
       gravity: -1.2
     })
 
-    const nodeCount = algoGraph.length;
+    const nodeCount = newAlgoGraph.length;
 
     const edgeAdded = Array.from(Array(nodeCount), () => Array(nodeCount).fill(false));
     for (let i = 0; i < nodeCount; i++) {
@@ -65,7 +79,7 @@ const Dijkstra = () => {
     }
 
     for (let nodeIdx = 0; nodeIdx < nodeCount; nodeIdx++) {
-      const nowList = algoGraph[nodeIdx];
+      const nowList = newAlgoGraph[nodeIdx];
       for (let otherNode of nowList) {
         // console.log('before Continue nodeIdx, otherIdx', nodeIdx, otherIdx)
         const otherIdx = otherNode.nodeIdx;
@@ -153,24 +167,71 @@ const Dijkstra = () => {
     return {graph, layout, graphics, renderer};
   }
 
-  useEffect(() => {
-    if (isInitialized.current) return;
-    isInitialized.current = true;
+  function getAndRenderVisualGraph(newAlgoGraph) {
+    // Create an empty graph
+    if (!visualGraph) return getNewVisualGraph(newAlgoGraph);
 
-    const nodeCount = 8;
-    const minEdgeCount = 2;
-    const maxEdgeCount = 3;
-    const minWeight = 5;
-    const maxWeight = 50;
+    const {graph, layout, graphics, renderer} = visualGraph;
+    graph.clear();
 
-    const newAlgoGraph = createAlgoGraph(nodeCount, minEdgeCount, maxEdgeCount, minWeight, maxWeight);
+    const nodeCount = newAlgoGraph.length;
 
-    const newVisualGraph = renderGraph(newAlgoGraph);
+    const edgeAdded = Array.from(Array(nodeCount), () => Array(nodeCount).fill(false));
+    for (let i = 0; i < nodeCount; i++) {
+      for (let j = 0; j < nodeCount; j++) {
+        edgeAdded[i][j] = false;
+      }
+    }
+    for (let nodeIdx = 0; nodeIdx < nodeCount; nodeIdx++) {
+      graph.addNode(nodeIdx, {label: nodeIdx + 1});
+    }
+
+    for (let nodeIdx = 0; nodeIdx < nodeCount; nodeIdx++) {
+      const nowList = newAlgoGraph[nodeIdx];
+      for (let otherNode of nowList) {
+        // console.log('before Continue nodeIdx, otherIdx', nodeIdx, otherIdx)
+        const otherIdx = otherNode.nodeIdx;
+        if (edgeAdded[nodeIdx][otherIdx]) continue;
+        if (edgeAdded[otherIdx][nodeIdx]) continue;
+        // console.log('after Continue nodeIdx, otherIdx', nodeIdx, otherIdx)
+        graph.addLink(nodeIdx, otherIdx, {weight: otherNode.weight});
+        edgeAdded[nodeIdx][otherIdx] = true;
+        edgeAdded[otherIdx][nodeIdx] = true;
+      }
+    }
+
+    return {graph, layout, graphics, renderer};
+
+  }
+
+  // useEffect(() => {
+  //   if (isInitialized.current) return;
+  //   isInitialized.current = true;
+
+  //   const nodeCount = 8;
+  //   const minEdgeCount = 2;
+  //   const maxEdgeCount = 3;
+  //   const minWeight = 5;
+  //   const maxWeight = 50;
+
+  //   const newAlgoGraph = createAlgoGraph(nodeCount, minEdgeCount, maxEdgeCount, minWeight, maxWeight);
+
+  //   const newVisualGraph = renderGraph(newAlgoGraph);
+  //   setAlgoGraph(newAlgoGraph);
+  //   setVisualGraph(newVisualGraph);
+
+  // }, []);
+
+  function createAlgoAndVisualGraph (e) {
+    e.preventDefault();
+
+    const newAlgoGraph = getAlgoGraph();
+    const newVisualGraph = getAndRenderVisualGraph(newAlgoGraph);
+    
     setAlgoGraph(newAlgoGraph);
     setVisualGraph(newVisualGraph);
-
-  }, []);
-
+  }
+  
   function compareFn (a, b) {
     if (a.dist < b.dist) {
       return -1;
@@ -182,20 +243,23 @@ const Dijkstra = () => {
     return 0;
   }
 
-  function processSSSP () {
-    setStartNode(3);
-    SSSP();
+  function reset (e) {
+    e.preventDefault();
+    const {graphics} = visualGraph;
+    for (let i = 0; i < totalNode; i++) {
+      const nodeUI = graphics.getNodeUI(i);
+      // nodeUI.children[0].attr('')
+      nodeUI.children[0].attr('fill', 'lightblue');
+    }
   }
 
-  function delay () {
-    setTimeout(()=>{}, 3000);
-  }
-
-  function SSSP () {
+  function SSSP (e) {
+    e.preventDefault();
     // setStartNode(3); // label on the visualization screen is 1 greater than this
     // setEndNode(5); // label on the visualization screen is 1 greater than this
     const { graph, graphics, layout, renderer } = visualGraph;
-    const startNodeIdx = 3;
+    console.log(visualGraph);
+    const startNodeIdx = startNode-1;
     const links = graph.getLinks(startNodeIdx);
     const node = graph.getNode(startNodeIdx);
     const nodeUI = graphics.getNodeUI(node.id)
@@ -225,20 +289,30 @@ const Dijkstra = () => {
         nowNodeUI.children[0].attr('fill', 'lightgreen');
         // graphics.refresh();
         console.log(nowNodeUI);
+        if (src === endNode-1) return;
+        console.log('src', src)
         for (const otherNode of algoGraph[src]) {
           const {nodeIdx, weight} = otherNode;
           // console.log('nodeIdx, weight, nowDist, nodeCount', nodeIdx, weight, nowDist, nodeCount)
           if (dist[src] + weight < dist[nodeIdx]) {
             dist[nodeIdx] = dist[src] + weight;
             priorityQueue.push({node: nodeIdx, dist: dist[nodeIdx]});
+            console.log('src, nodeIdx', src, nodeIdx)
+            let link = graph.getLink(src, nodeIdx);
+            if (!link) link = graph.getLink(nodeIdx, src);
+            const linkId = link.id;
+            console.log('linkId', linkId);
+            const linkUI = graphics.getLinkUI(linkId);
+            console.log('linkUI', linkUI);
+            linkUI.children[0].attr('style', 'stroke: green; stroke-width: 3')
             // console.log('add elem', priorityQueue)
           }
         }
-        priorityQueue.sort(compareFn);                  //  increment the counter
-        if (priorityQueue.length > 0) {           //  if the counter < 10, call the loop function
-          myLoop();             //  ..  again which will trigger another 
-        }                       //  ..  setTimeout()
-      }, 3000)
+        priorityQueue.sort(compareFn);
+        if (priorityQueue.length > 0) { 
+          myLoop();
+        }
+      }, 5000)
     }
     
     myLoop(); 
@@ -272,10 +346,35 @@ const Dijkstra = () => {
   return (
     <div className="disjkstra">
       <Header />
-      <div className="dijkstraStage" id='graph-container'>
+      <div className="visualize">
+        <div className="dijkstraStage" id='graph-container'>
 
+        </div>
+        <div className="configurator">
+          <form className="createGraphForm" onSubmit={createAlgoAndVisualGraph}>
+            <label className='formlabel'>Node Count</label>
+            <input type="number" placeholder='Node Count' min='2' max='100' onChange={(e) => setTotalNode(parseInt(e.target.value, 10))}/>
+            <label className='formlabel'>Minimum Edge Count</label>
+            <input type="number" placeholder='Min Edge Count' min='1' max='99' onChange={(e) => setMinEdgeCount(parseInt(e.target.value, 10))}/>
+            <label className='formlabel'>Maximum Edge Count</label>
+            <input type="number" placeholder='Max Edge Count' min='1' max='99' onChange={(e) => setMaxEdgeCount(parseInt(e.target.value, 10))}/>
+            <label className='formlabel'>Min Weight</label>
+            <input type="number" placeholder='Min Weight' min='1' max='99' onChange={(e) => setMinWeight(parseInt(e.target.value, 10))}/>
+            <label className='formlabel'>Max Weight</label>
+            <input type="number" placeholder='Max Weight' min='1' max='99' onChange={(e) => setMaxWeight(parseInt(e.target.value, 10))}/>
+            <button type='submit' className='button' disabled={totalNode===-1 || minEdgeCount===-1 || maxEdgeCount===-1 || minWeight===-1 || maxWeight===-1}>Create Graph</button>
+            <button className='button' onClick={reset}>Reset</button>
+          </form>
+
+          <form className="startAndEndForm" onSubmit={SSSP}>
+            <label className='formlabel'>Start Node</label>
+            <input type="number" placeholder='Start Node' min='1' max={`${totalNode}`} onChange={(e) => setStartNode(parseInt(e.target.value, 10))}/>
+            <label className='formlabel'>End Node</label>
+            <input type="number" placeholder='End Node' min='1' max={`${totalNode}`} onChange={(e) => setEndNode(parseInt(e.target.value, 10))}/>
+            <button type='submit' className='button' disabled={startNode===-1 || endNode===-1 || algoGraph===null || visualGraph===null}>Start Dijkstra</button>
+          </form>
+        </div>
       </div>
-      <button className="startSSSP" type='button' onClick={processSSSP}>Start SSSP</button>
     </div>
   )
 }

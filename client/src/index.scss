@@ -112,7 +112,8 @@ button, .button {
   transition: 0.05s;
   display: inline-block;
   cursor: pointer;
-  background-color: white;
+  background-color: var(--first-color);
+  color: white;
 }
 
 button:active, .button:active {
@@ -194,10 +195,12 @@ svg {
   }
 
   &__cta {
+    background-color: white;
     color: var(--first-color);
     text-transform: uppercase;
     font-weight: var(--font-semi-bold);
     font-size: 1.3rem;
+
   }
 }
 
@@ -218,17 +221,46 @@ svg {
   place-items: center;
 }
 
-.node {
-  background-color: var(--first-color);
-  color: white;
-  height: 2rem;
-  width: 2rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+// .node {
+//   background-color: var(--first-color);
+//   color: white;
+//   height: 2rem;
+//   width: 2rem;
+//   border-radius: 50%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
 
-  &__value{
-    font-weight: var(--font-semi-bold);
-  }
+//   &__value{
+//     font-weight: var(--font-semi-bold);
+//   }
+// }
+
+.visualize {
+  display: grid;
+  grid-template-columns: 8fr 2fr;
+}
+
+.configurator {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.5rem;
+  row-gap: 1rem;
+}
+
+.configurator input {
+  padding: 0.5rem;
+}
+
+.createGraphForm, .startAndEndForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.formlabel {
+  font-size: var(--smaller-font-size);
+  font-weight: var(--font-medium);
+  color: black;
+  margin-bottom: -0.4rem;
 }
