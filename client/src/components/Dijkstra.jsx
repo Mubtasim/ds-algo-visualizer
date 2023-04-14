@@ -6,9 +6,12 @@ import Header from './Header'
 // import { createGraph, addLink } from '../features/graph/graphSlice';
 
 const Dijkstra = () => {
-  const isInitialized = useRef(false);
   const [algoGraph, setAlgoGraph] = useState(null)
-
+  const [visualGraph, setVisualGraph] = useState(null)
+  const [startNode, setStartNode] = useState(-1)
+  const [endNode, setEndNode] = useState(-1)
+  const isInitialized = useRef(false);
+  
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
@@ -147,21 +150,124 @@ const Dijkstra = () => {
     });
 
     renderer.run();
-
+    return {graph, layout, graphics, renderer};
   }
 
   useEffect(() => {
     if (isInitialized.current) return;
     isInitialized.current = true;
 
-    const newAlgoGraph = createAlgoGraph(10, 2, 3, 5, 50);
+    const nodeCount = 8;
+    const minEdgeCount = 2;
+    const maxEdgeCount = 3;
+    const minWeight = 5;
+    const maxWeight = 50;
 
-    renderGraph(newAlgoGraph);
+    const newAlgoGraph = createAlgoGraph(nodeCount, minEdgeCount, maxEdgeCount, minWeight, maxWeight);
 
+    const newVisualGraph = renderGraph(newAlgoGraph);
     setAlgoGraph(newAlgoGraph);
-
+    setVisualGraph(newVisualGraph);
 
   }, []);
+
+  function compareFn (a, b) {
+    if (a.dist < b.dist) {
+      return -1;
+    }
+    if (a.dist > b.dist) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  }
+
+  function processSSSP () {
+    setStartNode(3);
+    SSSP();
+  }
+
+  function delay () {
+    setTimeout(()=>{}, 3000);
+  }
+
+  function SSSP () {
+    // setStartNode(3); // label on the visualization screen is 1 greater than this
+    // setEndNode(5); // label on the visualization screen is 1 greater than this
+    const { graph, graphics, layout, renderer } = visualGraph;
+    const startNodeIdx = 3;
+    const links = graph.getLinks(startNodeIdx);
+    const node = graph.getNode(startNodeIdx);
+    const nodeUI = graphics.getNodeUI(node.id)
+    // console.log(nodeUI);
+    const priorityQueue = [];
+    const addNode = {node: startNodeIdx, dist: 0};
+    priorityQueue.push(addNode) // {src, distFromStart}
+    // console.log('priorityQueue', priorityQueue)
+    const nodeCount = algoGraph.length;
+    const processsed = Array(nodeCount).fill(false);
+    const INF = 1000000;
+    // console.log('nodecount', nodeCount)
+    const dist = Array(nodeCount).fill(INF);
+    // console.log('processed, dist', processsed, dist)
+    dist[startNodeIdx] = 0;
+    // console.log(algoGraph)
+
+    function myLoop() {         //  create a loop function
+      setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+        const top = priorityQueue.shift();
+        const src = top.node;
+        const nowDist = top.dist;
+        console.log('src dist', src, nowDist)
+        if (processsed[src]) return;
+        processsed[src] = true;
+        const nowNodeUI = graphics.getNodeUI(src);
+        nowNodeUI.children[0].attr('fill', 'lightgreen');
+        // graphics.refresh();
+        console.log(nowNodeUI);
+        for (const otherNode of algoGraph[src]) {
+          const {nodeIdx, weight} = otherNode;
+          // console.log('nodeIdx, weight, nowDist, nodeCount', nodeIdx, weight, nowDist, nodeCount)
+          if (dist[src] + weight < dist[nodeIdx]) {
+            dist[nodeIdx] = dist[src] + weight;
+            priorityQueue.push({node: nodeIdx, dist: dist[nodeIdx]});
+            // console.log('add elem', priorityQueue)
+          }
+        }
+        priorityQueue.sort(compareFn);                  //  increment the counter
+        if (priorityQueue.length > 0) {           //  if the counter < 10, call the loop function
+          myLoop();             //  ..  again which will trigger another 
+        }                       //  ..  setTimeout()
+      }, 3000)
+    }
+    
+    myLoop(); 
+
+    // while (priorityQueue.length > 0) {
+    //   // console.log('prorityQueue', priorityQueue)
+    //   const top = priorityQueue.shift();
+    //   const src = top.node;
+    //   const nowDist = top.dist;
+    //   console.log('src dist', src, nowDist)
+    //   if (processsed[src]) continue;
+    //   processsed[src] = true;
+    //   const nowNodeUI = graphics.getNodeUI(src);
+    //   nowNodeUI.children[0].attr('fill', 'lightgreen');
+    //   // graphics.refresh();
+    //   console.log(nowNodeUI);
+    //   for (const otherNode of algoGraph[src]) {
+    //     const {nodeIdx, weight} = otherNode;
+    //     // console.log('nodeIdx, weight, nowDist, nodeCount', nodeIdx, weight, nowDist, nodeCount)
+    //     if (dist[src] + weight < dist[nodeIdx]) {
+    //       dist[nodeIdx] = dist[src] + weight;
+    //       priorityQueue.push({node: nodeIdx, dist: dist[nodeIdx]});
+    //       // console.log('add elem', priorityQueue)
+    //     }
+    //   }
+    //   priorityQueue.sort(compareFn);
+    // }
+    console.log(dist);
+  }
 
   return (
     <div className="disjkstra">
@@ -169,6 +275,7 @@ const Dijkstra = () => {
       <div className="dijkstraStage" id='graph-container'>
 
       </div>
+      <button className="startSSSP" type='button' onClick={processSSSP}>Start SSSP</button>
     </div>
   )
 }
