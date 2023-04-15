@@ -13,6 +13,7 @@ import reportWebVitals from './reportWebVitals';
 import DsList from './components/DsList';
 import Stage from './components/Stage';
 import Dijkstra from './components/Dijkstra';
+import BinarySearch from './components/BinarySearch';
 
 const router = createBrowserRouter(
   [
@@ -31,6 +32,10 @@ const router = createBrowserRouter(
     {
       path: "/1",
       element: <Dijkstra />
+    },
+    {
+      path: "/2",
+      element: <BinarySearch />
     }
   ]
 )
