@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import graphReducer from './features/graph/graphSlice';
+import binarySearchReducer from './features/binarySearch/binarySearchSlice'
 
 const store = configureStore({
   reducer: {
-    graph: graphReducer,
+    binarySearch: binarySearchReducer
   },
 });
 

@@ -1,44 +1,72 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { updateItems, updateLeft, updateRight, updateMid, updateItemToFind, updateTotalItems } from '../features/binarySearch/binarySearchSlice'
 import Header from './Header'
 import BinaryItem from './BinaryItem'
 
 const BinarySearch = () => {
-  const [itemCount, setItemCount] = useState(-1)
-  const [items, setItems] = useState(null)
-  const [numberToFind, setNumberToFind] = useState(-1)
-  const [left, setLeft] = useState(-1)
-  const [right, setRight] = useState(-1)
-  const [mid, setMid] = useState(-1)
+
+  const items = useSelector((state) => state.binarySearch.items);
+  const left = useSelector((state) => state.binarySearch.left);
+  const right = useSelector((state) => state.binarySearch.right);
+  const mid = useSelector((state) => state.binarySearch.mid);
+  const itemToFind = useSelector((state) => state.binarySearch.itemToFind);
+  const totalItems = useSelector((state) => state.binarySearch.totalItems)
+
+  const dispatch = useDispatch();
 
   function createItems (e) {
     e.preventDefault();
-    const newItems = Array(itemCount).fill(0);
-    for (let i = 0; i < itemCount; i++) newItems[i] = i + 1;
-    setItems(newItems);
+    const newItems = Array(totalItems).fill(0);
+    for (let i = 0; i < totalItems; i++) newItems[i] = i + 1;
+    dispatch(updateItems(newItems));
   }
 
   function binarySearch (e) {
     e.preventDefault();
-    let l = 1, r = itemCount;
-    setLeft(1);
-    setRight(r);
-    console.log()
-    while(l <= r) {
-      const midNow = Math.floor((l + r) / 2);
-      setMid(midNow);
-      console.log('left, mid, right, numbertofind', l, midNow, r, numberToFind);
-      if (midNow === numberToFind) {
-        console.log('found')
+    
+    dispatch(updateLeft(1));
+    dispatch(updateRight(items.length));
+
+    let found = false;
+    let called = 0;
+
+    // function binarySearchLoop () {
+    //   setTimeout(() => {
+    //     called++;
+    //     if (called > 10) return;
+    //     const midNow = Math.floor((left + right) / 2);
+    //     dispatch(updateMid(midNow));
+    //     if (mid === itemToFind) {
+    //       console.log('found')
+    //       found = true;
+    //     } else if (itemToFind > mid) {
+    //       dispatch(updateLeft(mid + 1));
+    //     } else {
+    //       dispatch(updateRight(mid - 1));
+    //     }
+
+    //     if (!found) {
+    //       binarySearchLoop();
+    //     }
+    //   }, 5000);
+    // }
+
+    // binarySearchLoop();
+    while(left <= right) {
+      dispatch(updateMid(Math.floor(left + right) / 2));
+      if (itemToFind === mid) {
+        console.log('found');
         break;
-      } else if (numberToFind > midNow) {
-        l = midNow + 1;
-        setLeft(l);
+      } else if (itemToFind > mid) {
+        dispatch(updateLeft(mid + 1));
       } else {
-        r = midNow - 1;
-        setRight(r);
+        dispatch(updateRight(mid - 1));
       }
     }
-    console.log('finished')
+    console.log('finished');
+
   }
 
   return (
@@ -54,12 +82,12 @@ const BinarySearch = () => {
         <div className="configurator">
           <form className="createListForm" onSubmit={createItems}>
             <label className='formlabel'>Item Count</label>
-            <input type="number" placeholder='Item Count' min='1' max='30' onChange={(e) => setItemCount(parseInt(e.target.value, 10))}/>
+            <input type="number" placeholder='Item Count' min='1' max='30' onChange={(e) => dispatch(updateTotalItems(parseInt(e.target.value, 10)))}/>
             <button type='submit' className='button'>Create List</button>
           </form>
           <form action="" className='findNumberForm' onSubmit={binarySearch}>
             <label className='formlabel'>Number to find</label>
-            <input type="number" placeholder='Number to find'  onChange={(e) => setNumberToFind(parseInt(e.target.value, 10))}/>
+            <input type="number" placeholder='Number to find'  onChange={(e) => dispatch(updateItemToFind(parseInt(e.target.value, 10)))}/>
             <button type='submit' className='button'>Start Searching</button>
           </form>
         </div>

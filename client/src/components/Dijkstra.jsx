@@ -13,6 +13,7 @@ const Dijkstra = () => {
   const [visualGraph, setVisualGraph] = useState(null);
   const [startNode, setStartNode] = useState(-1);
   const [endNode, setEndNode] = useState(-1);
+  const [speedInMiliSec, setSpeedInMiliSec] = useState(100)
   
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -322,7 +323,7 @@ const Dijkstra = () => {
           markPath();
         }
 
-      }, 2000)
+      }, speedInMiliSec)
     }
     
     traversingLoop(); 
@@ -357,6 +358,8 @@ const Dijkstra = () => {
             <input type="number" placeholder='Start Node' min='1' max={`${totalNode}`} onChange={(e) => setStartNode(parseInt(e.target.value, 10))}/>
             <label className='formlabel'>End Node</label>
             <input type="number" placeholder='End Node' min='1' max={`${totalNode}`} onChange={(e) => setEndNode(parseInt(e.target.value, 10))}/>
+            <label className='formlabel'>Speed (In Mili Second, Default=100)</label>
+            <input type="number" placeholder='Speed (In Mili Second)' min='100' max='5000' onChange={(e) => setSpeedInMiliSec(parseInt(e.target.value, 10))}/>
             <button type='submit' className='button' disabled={startNode===-1 || endNode===-1 || algoGraph===null || visualGraph===null}>Start Dijkstra</button>
           </form>
         </div>
