@@ -14,6 +14,7 @@ import DsList from './components/DsList';
 import Stage from './components/Stage';
 import Dijkstra from './components/Dijkstra';
 import BinarySearch from './components/BinarySearch';
+import UserAuth from './components/UserAuth';
 
 const router = createBrowserRouter(
   [
@@ -36,6 +37,10 @@ const router = createBrowserRouter(
     {
       path: "/2",
       element: <BinarySearch />
+    },
+    {
+      path: "/userauth",
+      element: <UserAuth />
     }
   ]
 )

@@ -12,7 +12,7 @@ const Header = () => {
         <li><a href="/dslist" className='header__page'>Ds list</a></li>
       </ul>
       <div className="header__user">
-        Log In
+        <a href="/userauth" className='header__auth'>Login/Register</a>
       </div>
     </div>
   )

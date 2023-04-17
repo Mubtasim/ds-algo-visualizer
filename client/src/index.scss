@@ -140,6 +140,13 @@ button:active, .button:active {
   color: white;
 }
 
+.button-toggler {
+  background-color: transparent;
+  color: var(--text-color);
+  display: inline-block;
+  padding: 0;
+}
+
 svg {
   width: 100%;
   height: 100%;
@@ -288,6 +295,17 @@ line {
   display: grid;
   grid-template-columns: 8fr 2fr;
   align-items: stretch;
+  position: relative;
+}
+
+#hoverValue {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  color: white;
+  font-size: var(--h1-font-size);
+  // border: 1px solid white;
+  // padding: 0.5rem 1rem
 }
 
 .info {
@@ -297,6 +315,12 @@ line {
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: var(--input-color);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
 }
 
 .icon {
@@ -343,15 +367,23 @@ line {
 
 .binarySearchStage {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   padding: 1rem;
   align-items: center;
+  background-color: black;
+}
+
+.binaryBars {
+  display: flex;
+  // column-gap: 0.3rem;
+  align-items: flex-end;
 }
 
 .binaryItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
 }
 
 .binaryNode {
@@ -368,6 +400,23 @@ line {
 .binaryNode, .itemIdx, .marker {
   transition: 5s ease-in-out;
 }
+
+.binaryBar {
+  background-color: gray;
+}
+
+.binaryItem {
+
+}
+
+.inBoundary {
+  background-color: white;
+}
+
+.midBar {
+  background-color: var(--first-color);
+}
+
 
 .marker {
   display: none;
@@ -406,4 +455,34 @@ line {
   height: calc(100vh - var(--header-height));
   box-shadow: 0px 0px 50rem rgba($color: #8f8e8e, $alpha: 0.5);
   row-gap: 2rem;
+}
+
+.userAuth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
+}
+
+
+.signIn, .signUp {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.5rem;
+  row-gap: 1rem;
+  width: 400px;
+  align-items: center;
+}
+
+.signIn .button, .signUp .button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signInPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }

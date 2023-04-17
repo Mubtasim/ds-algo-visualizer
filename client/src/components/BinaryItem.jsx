@@ -1,23 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const BinaryItem = ({value, id}) => {
+const BinaryItem = ({value, id, width, height}) => {
+
+  // const [domElem, setDomElem] = useState(null)
+
+  useEffect(() => {
+    const elem = document.getElementById(id);
+    console.log(elem);
+    function setHoverValue () {
+      const hoverElem = document.getElementById('hoverValue');
+      hoverElem.innerText = value;
+    }
+
+    function unsetHoverValue () {
+      const hoverElem = document.getElementById('hoverValue');
+      hoverElem.innerText = '';
+    }
+
+    elem.onmouseenter = setHoverValue;
+    elem.onmouseleave = unsetHoverValue;
+  }, [id, value]);
 
   return (
     <div className='binaryItem' id={id}>
-      <div className="binaryNode">
-        {value}
-      </div>
-      <div className="itemIdx">
-        {id + 1}
-      </div>
-      <div className="marker" id={`${id}-l`}>
-        L
-      </div>
-      <div className="marker" id={`${id}-r`}>
-        R
-      </div>
-      <div className="marker" id={`${id}-m`}>
-        M
+      <div style={{width: width, height: height, marginRight: width}} className='binaryBar'>
+
       </div>
     </div>
   )
