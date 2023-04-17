@@ -9,7 +9,7 @@ const Home = () => {
           An interactive platform to visualize data structures & algorithms!
         </div>
       </div>
-      <a className="hero__cta button" href='/1' type='button'>Start Visualizing</a>
+      <a className="hero__cta button" href='/dslist' type='button'>Start Visualizing</a>
     </div>
   )
 }

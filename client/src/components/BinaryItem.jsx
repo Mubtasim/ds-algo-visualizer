@@ -1,29 +1,24 @@
 import React from 'react'
 
-const BinaryItem = ({value, left, right, mid}) => {
+const BinaryItem = ({value, id}) => {
+
   return (
-    <div className='binaryItem'>
+    <div className='binaryItem' id={id}>
       <div className="binaryNode">
         {value}
       </div>
-      {
-        left === value &&
-        <div className="marker">
-          L
-        </div>
-      }
-      {
-        right === value &&
-        <div className="marker">
-          R
-        </div>
-      }
-      {
-        mid === value &&
-        <div className="marker">
-          M
-        </div>
-      }
+      <div className="itemIdx">
+        {id + 1}
+      </div>
+      <div className="marker" id={`${id}-l`}>
+        L
+      </div>
+      <div className="marker" id={`${id}-r`}>
+        R
+      </div>
+      <div className="marker" id={`${id}-m`}>
+        M
+      </div>
     </div>
   )
 }
