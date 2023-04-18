@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import Viva from 'vivagraphjs';
+import React, { useState } from "react";
+import Viva from "vivagraphjs";
 
-import Header from './Header'
+import Header from "./Header";
 
 const Dijkstra = () => {
   const [totalNode, setTotalNode] = useState(-1);
@@ -13,10 +13,10 @@ const Dijkstra = () => {
   const [visualGraph, setVisualGraph] = useState(null);
   const [startNode, setStartNode] = useState(-1);
   const [endNode, setEndNode] = useState(-1);
-  const [speedInMiliSec, setSpeedInMiliSec] = useState(100)
-  const [isTutorialText, setIsTutorialText] = useState(false)
-  const [isTutorialVideo, setIsTutorialVideo] = useState(false)
-  
+  const [speedInMiliSec, setSpeedInMiliSec] = useState(100);
+  const [isTutorialText, setIsTutorialText] = useState(false);
+  const [isTutorialVideo, setIsTutorialVideo] = useState(false);
+
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
@@ -25,7 +25,7 @@ const Dijkstra = () => {
     return Math.floor(Math.random() * (max - min) + min);
   }
 
-  function isConnected (algoGraph, src, dest) {
+  function isConnected(algoGraph, src, dest) {
     const otherList = algoGraph[src];
     for (let node of otherList) {
       if (node.nodeIdx === dest) return true;
@@ -33,7 +33,7 @@ const Dijkstra = () => {
     return false;
   }
 
-  function getAlgoGraph () {
+  function getAlgoGraph() {
     const newAlgoGraph = Array(totalNode);
 
     for (let i = 0; i < totalNode; i++) {
@@ -42,15 +42,23 @@ const Dijkstra = () => {
 
     for (let nodeIdx = 0; nodeIdx < totalNode; nodeIdx++) {
       const nowList = newAlgoGraph[nodeIdx];
-      while(nowList.length < minEdgeCount) {
+      while (nowList.length < minEdgeCount) {
         const otherNodeIdx = getRandomInt(totalNode);
-        if (otherNodeIdx === nodeIdx || isConnected(newAlgoGraph, nodeIdx, otherNodeIdx)) continue;
+        if (
+          otherNodeIdx === nodeIdx ||
+          isConnected(newAlgoGraph, nodeIdx, otherNodeIdx)
+        )
+          continue;
         const otherList = newAlgoGraph[otherNodeIdx];
-        if (otherList.length >= maxEdgeCount || isConnected(newAlgoGraph, otherNodeIdx, nodeIdx)) continue;
+        if (
+          otherList.length >= maxEdgeCount ||
+          isConnected(newAlgoGraph, otherNodeIdx, nodeIdx)
+        )
+          continue;
         const nowWeight = getRandomArbitrary(minWeight, maxWeight + 1);
         console.log(nowWeight, minWeight, maxWeight);
-        nowList.push({nodeIdx: otherNodeIdx, weight: nowWeight});
-        otherList.push({nodeIdx: nodeIdx, weight: nowWeight});
+        nowList.push({ nodeIdx: otherNodeIdx, weight: nowWeight });
+        otherList.push({ nodeIdx: nodeIdx, weight: nowWeight });
       }
     }
 
@@ -63,12 +71,14 @@ const Dijkstra = () => {
       springLength: 200, // Set desired spring length here
       springCoeff: 0.0002,
       dragCoeff: 0.02,
-      gravity: -1.2
-    })
+      gravity: -1.2,
+    });
 
     const nodeCount = newAlgoGraph.length;
 
-    const edgeAdded = Array.from(Array(nodeCount), () => Array(nodeCount).fill(false));
+    const edgeAdded = Array.from(Array(nodeCount), () =>
+      Array(nodeCount).fill(false)
+    );
     for (let i = 0; i < nodeCount; i++) {
       for (let j = 0; j < nodeCount; j++) {
         edgeAdded[i][j] = false;
@@ -76,7 +86,7 @@ const Dijkstra = () => {
     }
 
     for (let nodeIdx = 0; nodeIdx < nodeCount; nodeIdx++) {
-      graph.addNode(nodeIdx, {label: nodeIdx + 1});
+      graph.addNode(nodeIdx, { label: nodeIdx + 1 });
     }
 
     for (let nodeIdx = 0; nodeIdx < nodeCount; nodeIdx++) {
@@ -85,7 +95,7 @@ const Dijkstra = () => {
         const otherIdx = otherNode.nodeIdx;
         if (edgeAdded[nodeIdx][otherIdx]) continue;
         if (edgeAdded[otherIdx][nodeIdx]) continue;
-        graph.addLink(nodeIdx, otherIdx, {weight: otherNode.weight});
+        graph.addLink(nodeIdx, otherIdx, { weight: otherNode.weight });
         edgeAdded[nodeIdx][otherIdx] = true;
         edgeAdded[otherIdx][nodeIdx] = true;
       }
@@ -95,99 +105,104 @@ const Dijkstra = () => {
     const graphics = Viva.Graph.View.svgGraphics();
 
     // Set up node rendering
-    graphics.node((node) => {
-      console.log()
-      const label = node.data.label;
-      const nodeUI = Viva.Graph.svg('g')
-        .attr('class', 'node')
-        .attr('cursor', 'pointer');
+    graphics
+      .node((node) => {
+        console.log();
+        const label = node.data.label;
+        const nodeUI = Viva.Graph.svg("g")
+          .attr("class", "node")
+          .attr("cursor", "pointer");
 
-      // Render circle
-      nodeUI.append(
-        Viva.Graph.svg('circle')
-          .attr('r', 15)
-          // .attr('fill', 'lightblue')
-          .attr('style', 'fill: lightblue;')
-      );
+        // Render circle
+        nodeUI.append(
+          Viva.Graph.svg("circle")
+            .attr("r", 15)
+            // .attr('fill', 'lightblue')
+            .attr("style", "fill: lightblue;")
+        );
 
-      // Render label
-      nodeUI.append(
-        Viva.Graph.svg('text')
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '14px')
-          .text(label)
-      );
+        // Render label
+        nodeUI.append(
+          Viva.Graph.svg("text")
+            .attr("text-anchor", "middle")
+            .attr("font-size", "14px")
+            .text(label)
+        );
 
-      // Render Dist
-      const dist = Viva.Graph.svg('text')
-        .attr('text-anchor', 'middle')
-        .attr('font-size', '10px')
-        // .attr('fill', 'green')
-        .attr('style', 'fill: green;')
-        .text('')
+        // Render Dist
+        const dist = Viva.Graph.svg("text")
+          .attr("text-anchor", "middle")
+          .attr("font-size", "10px")
+          // .attr('fill', 'green')
+          .attr("style", "fill: green;")
+          .text("");
 
-      nodeUI.append(dist);
+        nodeUI.append(dist);
 
-      return nodeUI;
-    })
-    .placeNode(function (nodeUI, pos) {
-      nodeUI.children[0].attr('cx', pos.x).attr('cy', pos.y)
-      nodeUI.children[1].attr('x', pos.x).attr('y', pos.y)
-      nodeUI.children[2].attr('x', pos.x-10).attr('y', pos.y-10)
-    })
+        return nodeUI;
+      })
+      .placeNode(function (nodeUI, pos) {
+        nodeUI.children[0].attr("cx", pos.x).attr("cy", pos.y);
+        nodeUI.children[1].attr("x", pos.x).attr("y", pos.y);
+        nodeUI.children[2].attr("x", pos.x - 10).attr("y", pos.y - 10);
+      });
 
     // Set up link rendering
-    graphics.link((link) => {
-      const linkUI = Viva.Graph.svg('g');
+    graphics
+      .link((link) => {
+        const linkUI = Viva.Graph.svg("g");
 
-      const line = Viva.Graph.svg('line')
-        .attr('style', 'stroke: #999; stroke-width: 2')
+        const line = Viva.Graph.svg("line").attr(
+          "style",
+          "stroke: #999; stroke-width: 2"
+        );
 
-      linkUI.append(line);
+        linkUI.append(line);
 
-      const text = Viva.Graph.svg('text')
-      .attr('text-anchor', 'middle')
-      .attr('font-size', '14px')
-      .text(link.data.weight)
+        const text = Viva.Graph.svg("text")
+          .attr("text-anchor", "middle")
+          .attr("font-size", "14px")
+          .text(link.data.weight);
 
-      linkUI.append(text);
+        linkUI.append(text);
 
-      return linkUI;
-    })
-    .placeLink(function (linkUI, fromPos, toPos) {
-      const line = linkUI.children[0];
-      const text = linkUI.children[1];
-      line.attr('x1', fromPos.x).attr('y1', fromPos.y);
-      line.attr('x2', toPos.x).attr('y2', toPos.y);
+        return linkUI;
+      })
+      .placeLink(function (linkUI, fromPos, toPos) {
+        const line = linkUI.children[0];
+        const text = linkUI.children[1];
+        line.attr("x1", fromPos.x).attr("y1", fromPos.y);
+        line.attr("x2", toPos.x).attr("y2", toPos.y);
 
-      const midX = (fromPos.x + toPos.x) / 2;
-      const midY = (fromPos.y + toPos.y) / 2;
+        const midX = (fromPos.x + toPos.x) / 2;
+        const midY = (fromPos.y + toPos.y) / 2;
 
-      text.attr('x', midX).attr('y', midY);
-    });
+        text.attr("x", midX).attr("y", midY);
+      });
 
     // Create the renderer and render the graph
     const renderer = Viva.Graph.View.renderer(graph, {
-      graphicsType: 'svg',
-      container: document.getElementById('graph-container'),
+      graphicsType: "svg",
+      container: document.getElementById("graph-container"),
       graphics: graphics,
-      layout: layout
+      layout: layout,
     });
 
     renderer.run();
-    return {graph, layout, graphics, renderer};
+    return { graph, layout, graphics, renderer };
   }
 
   function getAndRenderVisualGraph(newAlgoGraph) {
-    
     if (!visualGraph) return getNewVisualGraph(newAlgoGraph);
 
-    const {graph, layout, graphics, renderer} = visualGraph;
+    const { graph, layout, graphics, renderer } = visualGraph;
     graph.clear();
 
     const nodeCount = newAlgoGraph.length;
 
-    const edgeAdded = Array.from(Array(nodeCount), () => Array(nodeCount).fill(false));
+    const edgeAdded = Array.from(Array(nodeCount), () =>
+      Array(nodeCount).fill(false)
+    );
     for (let i = 0; i < nodeCount; i++) {
       for (let j = 0; j < nodeCount; j++) {
         edgeAdded[i][j] = false;
@@ -195,7 +210,7 @@ const Dijkstra = () => {
     }
 
     for (let nodeIdx = 0; nodeIdx < nodeCount; nodeIdx++) {
-      graph.addNode(nodeIdx, {label: nodeIdx + 1});
+      graph.addNode(nodeIdx, { label: nodeIdx + 1 });
     }
 
     for (let nodeIdx = 0; nodeIdx < nodeCount; nodeIdx++) {
@@ -204,27 +219,26 @@ const Dijkstra = () => {
         const otherIdx = otherNode.nodeIdx;
         if (edgeAdded[nodeIdx][otherIdx]) continue;
         if (edgeAdded[otherIdx][nodeIdx]) continue;
-        graph.addLink(nodeIdx, otherIdx, {weight: otherNode.weight});
+        graph.addLink(nodeIdx, otherIdx, { weight: otherNode.weight });
         edgeAdded[nodeIdx][otherIdx] = true;
         edgeAdded[otherIdx][nodeIdx] = true;
       }
     }
 
-    return {graph, layout, graphics, renderer};
-
+    return { graph, layout, graphics, renderer };
   }
 
-  function createAlgoAndVisualGraph (e) {
+  function createAlgoAndVisualGraph(e) {
     e.preventDefault();
 
     const newAlgoGraph = getAlgoGraph();
     const newVisualGraph = getAndRenderVisualGraph(newAlgoGraph);
-    
+
     setAlgoGraph(newAlgoGraph);
     setVisualGraph(newVisualGraph);
   }
-  
-  function compareFn (a, b) {
+
+  function compareFn(a, b) {
     if (a.dist < b.dist) {
       return -1;
     }
@@ -236,54 +250,54 @@ const Dijkstra = () => {
     return 0;
   }
 
-  function reset (e) {
+  function reset(e) {
     e.preventDefault();
-    const {graph, graphics} = visualGraph;
+    const { graph, graphics } = visualGraph;
 
     for (let i = 0; i < totalNode; i++) {
       const nodeUI = graphics.getNodeUI(i);
       // nodeUI.children[0].attr('fill', 'lightblue');
-      nodeUI.children[0].attr('style', 'fill: lightblue;');
-      nodeUI.children[2].text('');
+      nodeUI.children[0].attr("style", "fill: lightblue;");
+      nodeUI.children[2].text("");
       const links = graph.getLinks(i);
       for (let link of links) {
         const linkUI = graphics.getLinkUI(link.id);
-        linkUI.children[0].attr('style', 'stroke: #999; stroke-width: 2');
+        linkUI.children[0].attr("style", "stroke: #999; stroke-width: 2");
       }
     }
   }
 
-  function SSSP (e) {
+  function SSSP(e) {
     e.preventDefault();
     const { graph, graphics } = visualGraph;
     const nodeCount = algoGraph.length;
-    const startNodeIdx = startNode-1;
+    const startNodeIdx = startNode - 1;
 
     const priorityQueue = [];
-    const addNode = {node: startNodeIdx, from: -1, dist: 0};
-    priorityQueue.push(addNode)
-    
+    const addNode = { node: startNodeIdx, from: -1, dist: 0 };
+    priorityQueue.push(addNode);
+
     const processsed = Array(nodeCount).fill(false);
     const INF = 1000000;
     const dist = Array(nodeCount).fill(INF);
     dist[startNodeIdx] = 0;
     const fromNodes = Array(nodeCount).fill(-1);
 
-    function markPath () {
+    function markPath() {
       let nowNodeIdx = endNode - 1;
 
       while (nowNodeIdx !== -1) {
         const nowNodeUI = graphics.getNodeUI(nowNodeIdx);
         // nowNodeUI.children[0].attr('fill', 'pink');
-        nowNodeUI.children[0].attr('style', 'fill: pink');
+        nowNodeUI.children[0].attr("style", "fill: pink");
         let fromNodeIdx = fromNodes[nowNodeIdx];
-        
+
         if (fromNodeIdx !== -1) {
           let link = graph.getLink(nowNodeIdx, fromNodeIdx);
           if (!link) link = graph.getLink(fromNodeIdx, nowNodeIdx);
           const linkId = link.id;
           const linkUI = graphics.getLinkUI(linkId);
-          linkUI.children[0].attr('style', 'stroke: pink; stroke-width: 3');
+          linkUI.children[0].attr("style", "stroke: pink; stroke-width: 3");
         }
 
         nowNodeIdx = fromNodeIdx;
@@ -291,7 +305,7 @@ const Dijkstra = () => {
     }
 
     function traversingLoop() {
-      setTimeout(function() {
+      setTimeout(function () {
         const top = priorityQueue.shift();
         const src = top.node;
         const nowDist = top.dist;
@@ -301,7 +315,7 @@ const Dijkstra = () => {
           processsed[src] = true;
           const nowNodeUI = graphics.getNodeUI(src);
           // nowNodeUI.children[0].attr('fill', 'lightgreen');
-          nowNodeUI.children[0].attr('style', 'fill: lightgreen')
+          nowNodeUI.children[0].attr("style", "fill: lightgreen");
           nowNodeUI.children[2].text(nowDist);
 
           if (from !== -1) {
@@ -309,14 +323,18 @@ const Dijkstra = () => {
             if (!link) link = graph.getLink(from, src);
             const linkId = link.id;
             const linkUI = graphics.getLinkUI(linkId);
-            linkUI.children[0].attr('style', 'stroke: green; stroke-width: 3')
+            linkUI.children[0].attr("style", "stroke: green; stroke-width: 3");
           }
 
           for (const otherNode of algoGraph[src]) {
-            const {nodeIdx, weight} = otherNode;
+            const { nodeIdx, weight } = otherNode;
             if (dist[src] + weight < dist[nodeIdx]) {
               dist[nodeIdx] = dist[src] + weight;
-              priorityQueue.push({node: nodeIdx, from: src, dist: dist[nodeIdx]});
+              priorityQueue.push({
+                node: nodeIdx,
+                from: src,
+                dist: dist[nodeIdx],
+              });
               fromNodes[nodeIdx] = src;
             }
           }
@@ -324,119 +342,255 @@ const Dijkstra = () => {
           priorityQueue.sort(compareFn);
         }
 
-        if (priorityQueue.length > 0) { 
+        if (priorityQueue.length > 0) {
           traversingLoop();
         } else {
           markPath();
         }
-
-      }, speedInMiliSec)
+      }, speedInMiliSec);
     }
-    
-    traversingLoop(); 
 
+    traversingLoop();
   }
 
   return (
     <div className="disjkstra">
       <Header />
 
-      {
-        isTutorialText &&
-        (
-          <div className="tutorialText">
-            <button className='button skipTutorial' onClick={() => setIsTutorialText(false)}>Skip Tutorial</button>
-            <div className="tutorialText__text">
-              Let the node at which we are starting be called the initial node. Let the distance of node Y be the distance from the initial node to Y. Dijkstra's algorithm will initially start with infinite distances and will try to improve them step by step. <br/><br/>
-
-              1. Mark all nodes unvisited. Create a set of all the unvisited nodes called the unvisited set. <br/><br/>
-
-              2. Assign to every node a tentative distance value: set it to zero for our initial node and to infinity for all other nodes. During the run of the algorithm, the tentative distance of a node v is the length of the shortest path discovered so far between the node v and the starting node. Since initially no path is known to any other vertex than the source itself (which is a path of length zero), all other tentative distances are initially set to infinity. Set the initial node as current. <br/><br/>
-
-              3. For the current node, consider all of its unvisited neighbors and calculate their tentative distances through the current node. Compare the newly calculated tentative distance to the one currently assigned to the neighbor and assign it the smaller one. For example, if the current node A is marked with a distance of 6, and the edge connecting it with a neighbor B has length 2, then the distance to B through A will be 6 + 2 = 8. If B was previously marked with a distance greater than 8 then change it to 8. Otherwise, the current value will be kept. <br/><br/>
-
-              4. When we are done considering all of the unvisited neighbors of the current node, mark the current node as visited and remove it from the unvisited set. A visited node will never be checked again (this is valid and optimal in connection with the behavior in step 6.: that the next nodes to visit will always be in the order of 'smallest distance from initial node first' so any visits after would have a greater distance). <br/><br/>
-
-              5. If the destination node has been marked visited (when planning a route between two specific nodes) or if the smallest tentative distance among the nodes in the unvisited set is infinity (when planning a complete traversal; occurs when there is no connection between the initial node and remaining unvisited nodes), then stop. The algorithm has finished. <br/><br/>
-
-              6. Otherwise, select the unvisited node that is marked with the smallest tentative distance, set it as the new current node, and go back to step 3.
-            </div>
+      {isTutorialText && (
+        <div className="tutorialText">
+          <button
+            className="button skipTutorial"
+            onClick={() => setIsTutorialText(false)}
+          >
+            Skip Tutorial
+          </button>
+          <div className="tutorialText__text">
+            Let the node at which we are starting be called the initial node.
+            Let the distance of node Y be the distance from the initial node to
+            Y. Dijkstra's algorithm will initially start with infinite distances
+            and will try to improve them step by step. <br />
+            <br />
+            1. Mark all nodes unvisited. Create a set of all the unvisited nodes
+            called the unvisited set. <br />
+            <br />
+            2. Assign to every node a tentative distance value: set it to zero
+            for our initial node and to infinity for all other nodes. During the
+            run of the algorithm, the tentative distance of a node v is the
+            length of the shortest path discovered so far between the node v and
+            the starting node. Since initially no path is known to any other
+            vertex than the source itself (which is a path of length zero), all
+            other tentative distances are initially set to infinity. Set the
+            initial node as current. <br />
+            <br />
+            3. For the current node, consider all of its unvisited neighbors and
+            calculate their tentative distances through the current node.
+            Compare the newly calculated tentative distance to the one currently
+            assigned to the neighbor and assign it the smaller one. For example,
+            if the current node A is marked with a distance of 6, and the edge
+            connecting it with a neighbor B has length 2, then the distance to B
+            through A will be 6 + 2 = 8. If B was previously marked with a
+            distance greater than 8 then change it to 8. Otherwise, the current
+            value will be kept. <br />
+            <br />
+            4. When we are done considering all of the unvisited neighbors of
+            the current node, mark the current node as visited and remove it
+            from the unvisited set. A visited node will never be checked again
+            (this is valid and optimal in connection with the behavior in step
+            6.: that the next nodes to visit will always be in the order of
+            'smallest distance from initial node first' so any visits after
+            would have a greater distance). <br />
+            <br />
+            5. If the destination node has been marked visited (when planning a
+            route between two specific nodes) or if the smallest tentative
+            distance among the nodes in the unvisited set is infinity (when
+            planning a complete traversal; occurs when there is no connection
+            between the initial node and remaining unvisited nodes), then stop.
+            The algorithm has finished. <br />
+            <br />
+            6. Otherwise, select the unvisited node that is marked with the
+            smallest tentative distance, set it as the new current node, and go
+            back to step 3.
           </div>
-        )
-      }
+        </div>
+      )}
 
-      {
-        isTutorialVideo &&
-        (
-          <div className="tutorialVideo">
-            {/* <iframe width="420" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+      {isTutorialVideo && (
+        <div className="tutorialVideo">
+          {/* <iframe width="420" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY">
             </iframe> */}
-            <button className='button skipTutorial' onClick={() => setIsTutorialVideo(false)}>Skip Tutorial Video</button>
-            <iframe width="853" height="480" src="https://www.youtube.com/embed/EFg3u_E6eHU" title="How Dijkstra&#39;s Algorithm Works" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen;" allowfullscreen></iframe>
-          </div>
-        )
-      }
+          <button
+            className="button skipTutorial"
+            onClick={() => setIsTutorialVideo(false)}
+          >
+            Skip Tutorial Video
+          </button>
+          <iframe
+            width="853"
+            height="480"
+            src="https://www.youtube.com/embed/EFg3u_E6eHU"
+            title="How Dijkstra&#39;s Algorithm Works"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen;"
+            allowfullscreen
+          ></iframe>
+        </div>
+      )}
 
-      {
-        !isTutorialText && !isTutorialVideo &&
-        (
-          <div className="visualize">
-            <div className="stageAndInfo">
-              <div className="info container">
-                <h1 className="title">Dijkstra Algorithm</h1>
-                <button className='button button-outline' onClick={() => setIsTutorialText(true)}>
-                  <div className='button-text'>Show Tutorial</div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-circle icon" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                  </svg>
-                </button>
-                <button className='button button-outline' onClick={() => setIsTutorialVideo(true)}>
-                  <div className='button-text'>Play Tutorial Video</div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle icon" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+      {!isTutorialText && !isTutorialVideo && (
+        <div className="visualize">
+          <div className="stageAndInfo">
+            <div className="info container">
+              <h1 className="title">Dijkstra Algorithm</h1>
+              <button
+                className="button button-outline"
+                onClick={() => setIsTutorialText(true)}
+              >
+                <div className="button-text">Show Tutorial</div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-info-circle icon"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                 </svg>
-                </button>
-              </div>
-              <div className="dijkstraStage" id='graph-container'>
-
-              </div>
+              </button>
+              <button
+                className="button button-outline"
+                onClick={() => setIsTutorialVideo(true)}
+              >
+                <div className="button-text">Play Tutorial Video</div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-play-circle icon"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                  <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
+                </svg>
+              </button>
             </div>
-            <div className="configurator">
-              {/* <button className='button' onClick={() => setIsTutorialText(true)}>Show Tutorial</button>
+            <div className="dijkstraStage" id="graph-container"></div>
+          </div>
+          <div className="configurator">
+            {/* <button className='button' onClick={() => setIsTutorialText(true)}>Show Tutorial</button>
               <button className='button' onClick={() => setIsTutorialVideo(true)}>Play Tutorial Video</button> */}
 
-              <form className="createGraphForm" onSubmit={createAlgoAndVisualGraph}>
-                <label className='formlabel'>Node Count</label>
-                <input type="number" placeholder='Node Count' min='2' max='100' onChange={(e) => setTotalNode(parseInt(e.target.value, 10))}/>
-                <label className='formlabel'>Minimum Edge Count Per Node</label>
-                <input type="number" placeholder='Min Edge Count' min='1' max='99' onChange={(e) => setMinEdgeCount(parseInt(e.target.value, 10))}/>
-                <label className='formlabel'>Maximum Edge Count Per Node</label>
-                <input type="number" placeholder='Max Edge Count' min='1' max='99' onChange={(e) => setMaxEdgeCount(parseInt(e.target.value, 10))}/>
-                <label className='formlabel'>Min Weight</label>
-                <input type="number" placeholder='Min Weight' min='1' max='99' onChange={(e) => setMinWeight(parseInt(e.target.value, 10))}/>
-                <label className='formlabel'>Max Weight</label>
-                <input type="number" placeholder='Max Weight' min='1' max='99' onChange={(e) => setMaxWeight(parseInt(e.target.value, 10))}/>
-                <button type='submit' className='button' disabled={totalNode===-1 || minEdgeCount===-1 || maxEdgeCount===-1 || minWeight===-1 || maxWeight===-1}>Create Graph</button>
-                <button className='button' onClick={reset}>Reset</button>
-              </form>
+            <form
+              className="createGraphForm"
+              onSubmit={createAlgoAndVisualGraph}
+            >
+              <label className="formlabel">Node Count</label>
+              <input
+                type="number"
+                placeholder="Node Count"
+                min="2"
+                max="100"
+                onChange={(e) => setTotalNode(parseInt(e.target.value, 10))}
+              />
+              <label className="formlabel">Minimum Edge Count Per Node</label>
+              <input
+                type="number"
+                placeholder="Min Edge Count"
+                min="1"
+                max="99"
+                onChange={(e) => setMinEdgeCount(parseInt(e.target.value, 10))}
+              />
+              <label className="formlabel">Maximum Edge Count Per Node</label>
+              <input
+                type="number"
+                placeholder="Max Edge Count"
+                min="1"
+                max="99"
+                onChange={(e) => setMaxEdgeCount(parseInt(e.target.value, 10))}
+              />
+              <label className="formlabel">Min Weight</label>
+              <input
+                type="number"
+                placeholder="Min Weight"
+                min="1"
+                max="99"
+                onChange={(e) => setMinWeight(parseInt(e.target.value, 10))}
+              />
+              <label className="formlabel">Max Weight</label>
+              <input
+                type="number"
+                placeholder="Max Weight"
+                min="1"
+                max="99"
+                onChange={(e) => setMaxWeight(parseInt(e.target.value, 10))}
+              />
+              <button
+                type="submit"
+                className="button"
+                disabled={
+                  totalNode === -1 ||
+                  minEdgeCount === -1 ||
+                  maxEdgeCount === -1 ||
+                  minWeight === -1 ||
+                  maxWeight === -1
+                }
+              >
+                Create Graph
+              </button>
+              <button className="button" onClick={reset}>
+                Reset
+              </button>
+            </form>
 
-              <form className="startAndEndForm" onSubmit={SSSP}>
-                <label className='formlabel'>Start Node</label>
-                <input type="number" placeholder='Start Node' min='1' max={`${totalNode}`} onChange={(e) => setStartNode(parseInt(e.target.value, 10))}/>
-                <label className='formlabel'>End Node</label>
-                <input type="number" placeholder='End Node' min='1' max={`${totalNode}`} onChange={(e) => setEndNode(parseInt(e.target.value, 10))}/>
-                <label className='formlabel'>Speed (In Mili Second, Default=100)</label>
-                <input type="number" placeholder='Speed (In Mili Second)' min='100' max='5000' onChange={(e) => setSpeedInMiliSec(parseInt(e.target.value, 10))}/>
-                <button type='submit' className='button' disabled={startNode===-1 || endNode===-1 || algoGraph===null || visualGraph===null}>Start Dijkstra</button>
-              </form>
-            </div>
+            <form className="startAndEndForm" onSubmit={SSSP}>
+              <label className="formlabel">Start Node</label>
+              <input
+                type="number"
+                placeholder="Start Node"
+                min="1"
+                max={`${totalNode}`}
+                onChange={(e) => setStartNode(parseInt(e.target.value, 10))}
+              />
+              <label className="formlabel">End Node</label>
+              <input
+                type="number"
+                placeholder="End Node"
+                min="1"
+                max={`${totalNode}`}
+                onChange={(e) => setEndNode(parseInt(e.target.value, 10))}
+              />
+              <label className="formlabel">
+                Speed (In Mili Second, Default=100)
+              </label>
+              <input
+                type="number"
+                placeholder="Speed (In Mili Second)"
+                min="100"
+                max="5000"
+                onChange={(e) =>
+                  setSpeedInMiliSec(parseInt(e.target.value, 10))
+                }
+              />
+              <button
+                type="submit"
+                className="button"
+                disabled={
+                  startNode === -1 ||
+                  endNode === -1 ||
+                  algoGraph === null ||
+                  visualGraph === null
+                }
+              >
+                Start Dijkstra
+              </button>
+            </form>
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Dijkstra
+export default Dijkstra;
