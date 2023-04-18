@@ -64,7 +64,7 @@ const create = async (req, res) => {
       .status(200)
       .send(JSON.stringify({ email: user.email, fullName: user.fullName }));
   } catch (error) {
-    res.status(500);
+    res.sendStatus(500);
     console.log(error);
   }
 };
@@ -92,7 +92,7 @@ const login = async (req, res) => {
     res.status(200).send(JSON.stringify({ accessToken: token }));
     // res.redirect(200, '/')
   } catch (error) {
-    res.status(500);
+    res.sendStatus(500);
     console.log(error);
   }
 };
@@ -108,7 +108,7 @@ const profile = async (req, res) => {
     const { email, fullName } = profile;
     res.status(200).send(JSON.stringify({ email, fullName }));
   } catch (error) {
-    res.status(500);
+    res.sendStatus(500);
     console.log(error);
   }
 };
@@ -121,6 +121,7 @@ const logout = (req, res) => {
     }
     res.status(200).send(JSON.stringify({ info: "logged out" }));
   } catch (error) {
+    res.sendStats(500);
     console.log(error);
   }
 };

@@ -1,13 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import apiServiceJWT from "../ApiServiceJWT";
+import auth from "../utils/auth";
+import { setAuthentication } from "../features/authentication/authenticationSlice";
 // import { OAuth2Client } from "google-auth-library";
 import Header from "./Header";
+import { useDispatch } from "react-redux";
 // const http = require("http");
 // const url = require("url");
 // const open = require("open");
 // const destroyer = require("server-destroy");
 // const keys = require("../auth2google.json");
 
+const initialState = {
+  email: "",
+  password: "",
+};
+
 const SignIn = ({ toggleSignUp }) => {
+  const [state, setState] = useState(initialState);
+
+  // const isAuthenticated = useSelector(
+  //   (state) => state.authentication.isAuthenticated
+  // );
+
+  const dispatch = useDispatch();
+
+  let navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    // Check the session branch to see how to handle redirects
+
+    e.preventDefault();
+    // Add logic to send a request to API service /login
+
+    // This sets isAuthenticated = true and redirects to profile
+    const form = e.target;
+    const formData = new FormData(form);
+    const formJson = Object.fromEntries(formData.entries());
+    // console.log(formJson);
+    const data = await apiServiceJWT.login(formJson);
+    localStorage.setItem("accessToken", data.accessToken);
+    Cookies.set("accessToken", data.accessToken);
+    // props.setIsAuthenticated(true);
+    dispatch(setAuthentication(true));
+    auth.login(() => navigate("/"));
+  };
+
+  const validateForm = () => {
+    return !state.email || !state.password;
+  };
+
   // const auth = new GoogleAuth({
   //   client_id:
   //     "246635221660-u6e89jpsvh0p5kavicmf3k05op0rn9fd.apps.googleusercontent.com",
@@ -96,12 +148,24 @@ const SignIn = ({ toggleSignUp }) => {
     <div className="signInPage">
       <Header />
       <div className="signIn">
-        <form action="#" className="signIn__form form">
+        <form action="#" className="signIn__form form" onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
-          <input type="email" />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={state.email}
+            onChange={handleChange}
+          />
           <label htmlFor="password">Password</label>
-          <input type="password" />
-          <button type="submit" className="button">
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={state.password}
+            onChange={handleChange}
+          />
+          <button type="submit" className="button" disabled={validateForm()}>
             Sign In
           </button>
           {/* <button onClick={handleSignIn}>Sign in with Google</button> */}

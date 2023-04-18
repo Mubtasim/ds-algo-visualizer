@@ -1,51 +1,51 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {Provider} from 'react-redux'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import store from './store'
-import './index.scss';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import DsList from './components/DsList';
-import Stage from './components/Stage';
-import Dijkstra from './components/Dijkstra';
-import BinarySearch from './components/BinarySearch';
-import UserAuth from './components/UserAuth';
+import store from "./store";
+import "./index.scss";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import DsList from "./components/DsList";
+import Stage from "./components/Stage";
+import Dijkstra from "./components/Dijkstra";
+import BinarySearch from "./components/BinarySearch";
+import UserAuth from "./components/UserAuth";
+import Logout from "./components/Logout";
 
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <App />
-    },
-    {
-      path: "/dslist",
-      element: <DsList />
-    },
-    {
-      path: "/stage",
-      element: <Stage />
-    },
-    {
-      path: "/1",
-      element: <Dijkstra />
-    },
-    {
-      path: "/2",
-      element: <BinarySearch />
-    },
-    {
-      path: "/userauth",
-      element: <UserAuth />
-    }
-  ]
-)
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/dslist",
+    element: <DsList />,
+  },
+  {
+    path: "/stage",
+    element: <Stage />,
+  },
+  {
+    path: "/1",
+    element: <Dijkstra />,
+  },
+  {
+    path: "/2",
+    element: <BinarySearch />,
+  },
+  {
+    path: "/userauth",
+    element: <UserAuth />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
+  },
+]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
