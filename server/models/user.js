@@ -13,6 +13,9 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  completedDSAlgo: {
+    type: [String],
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

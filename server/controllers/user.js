@@ -32,7 +32,7 @@ async function checkCredentials(email, password) {
     return await User.findOne({
       email,
     }).then((query) => {
-      if (query) return bcrypt.compare(password, query.password);
+      if (query) return query;
       return false;
     });
   } catch (error) {
@@ -76,8 +76,8 @@ const login = async (req, res) => {
     if (!(email && password)) {
       return res.status(400).send("Missing credentials");
     }
-    const credentialsOk = await checkCredentials(email, password);
-    if (!credentialsOk) {
+    const user = await checkCredentials(email, password);
+    if (!user) {
       res.status(401).send("Invalid credentials");
       return;
     }
@@ -89,7 +89,12 @@ const login = async (req, res) => {
       secure: false,
       sameSite: "Strict",
     });
-    res.status(200).send(JSON.stringify({ accessToken: token }));
+    const data = {
+      email: user.email,
+      fullName: user.fullName,
+      completedDSAlgo: user.completedDSAlgo,
+    };
+    res.status(200).send(JSON.stringify({ accessToken: token, data: data }));
     // res.redirect(200, '/')
   } catch (error) {
     res.sendStatus(500);
@@ -113,7 +118,7 @@ const profile = async (req, res) => {
   }
 };
 
-const logout = (req, res) => {
+const logout = async (req, res) => {
   try {
     const token = req.cookies.accessToken;
     if (!destroySession(token)) {
@@ -126,4 +131,59 @@ const logout = (req, res) => {
   }
 };
 
-module.exports = { create, login, profile, logout };
+const markComplete = async (req, res) => {
+  try {
+    const token = req.cookies.accessToken;
+    const dsId = req.params.id;
+    const session = await getSession(token);
+    const userEmail = session.userEmail;
+    const profile = await User.findOne({
+      email: userEmail,
+    });
+    // console.log(profile, dsId);
+    const dsIdIdx = profile.completedDSAlgo.indexOf(dsId);
+    if (dsIdIdx === -1) {
+      profile.completedDSAlgo.push(dsId);
+      await profile.save();
+    }
+    res
+      .status(200)
+      .send(JSON.stringify({ completedDSAlgo: profile.completedDSAlgo }));
+  } catch (error) {
+    res.sendStatus(500);
+    console.log(error);
+  }
+};
+
+const markIncomplete = async (req, res) => {
+  try {
+    const token = req.cookies.accessToken;
+    const dsId = req.params.id;
+    const session = await getSession(token);
+    const userEmail = session.userEmail;
+    const profile = await User.findOne({
+      email: userEmail,
+    });
+    // console.log(profile, dsId);
+    const dsIdIdx = profile.completedDSAlgo.indexOf(dsId);
+    if (dsIdIdx > -1) {
+      profile.completedDSAlgo.splice(dsIdIdx, 1);
+      await profile.save();
+    }
+    res
+      .status(200)
+      .send(JSON.stringify({ completedDSAlgo: profile.completedDSAlgo }));
+  } catch (error) {
+    res.sendStatus(500);
+    console.log(error);
+  }
+};
+
+module.exports = {
+  create,
+  login,
+  profile,
+  logout,
+  markComplete,
+  markIncomplete,
+};

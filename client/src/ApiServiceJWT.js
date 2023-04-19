@@ -87,4 +87,64 @@ apiServiceJWT.logout = async () => {
   }
 };
 
+apiServiceJWT.getalldsalgo = async () => {
+  try {
+    const options = {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    };
+    return await fetch(`${BASE_URL}/getalldsalgo`, options)
+      .then((res) => (res.status <= 400 ? res : Promise.reject(res)))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log(`${err.message} while fetching /getalldsalgo`);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+apiServiceJWT.markcomplete = async (dsId) => {
+  try {
+    const options = {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    };
+    return await fetch(`${BASE_URL}/markcomplete/${dsId}`, options)
+      .then((res) => (res.status <= 400 ? res : Promise.reject(res)))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log(`${err.message} while fetching /markcomplete`);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+apiServiceJWT.markincomplete = async (dsId) => {
+  try {
+    const options = {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    };
+    return await fetch(`${BASE_URL}/markincomplete/${dsId}`, options)
+      .then((res) => (res.status <= 400 ? res : Promise.reject(res)))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log(`${err.message} while fetching /markincomplete`);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default apiServiceJWT;

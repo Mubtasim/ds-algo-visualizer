@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Viva from "vivagraphjs";
 
 import Header from "./Header";
+import Incompleted from "./Incompleted";
+import Completed from "./completed";
+import { useSelector } from "react-redux";
 
 const Dijkstra = () => {
   const [totalNode, setTotalNode] = useState(-1);
@@ -16,6 +19,12 @@ const Dijkstra = () => {
   const [speedInMiliSec, setSpeedInMiliSec] = useState(100);
   const [isTutorialText, setIsTutorialText] = useState(false);
   const [isTutorialVideo, setIsTutorialVideo] = useState(false);
+
+  const userData = useSelector((state) => state.authentication.userData);
+  const isAuthenticated = useSelector(
+    (state) => state.authentication.isAuthenticated
+  );
+  const currentDs = useSelector((state) => state.dsAndAlgo.currentDs);
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -56,7 +65,6 @@ const Dijkstra = () => {
         )
           continue;
         const nowWeight = getRandomArbitrary(minWeight, maxWeight + 1);
-        console.log(nowWeight, minWeight, maxWeight);
         nowList.push({ nodeIdx: otherNodeIdx, weight: nowWeight });
         otherList.push({ nodeIdx: nodeIdx, weight: nowWeight });
       }
@@ -297,7 +305,7 @@ const Dijkstra = () => {
           if (!link) link = graph.getLink(fromNodeIdx, nowNodeIdx);
           const linkId = link.id;
           const linkUI = graphics.getLinkUI(linkId);
-          linkUI.children[0].attr("style", "stroke: pink; stroke-width: 3");
+          linkUI.children[0].attr("style", "stroke: pink; stroke-width: 5");
         }
 
         nowNodeIdx = fromNodeIdx;
@@ -468,7 +476,7 @@ const Dijkstra = () => {
                   width="16"
                   height="16"
                   fill="currentColor"
-                  class="bi bi-play-circle icon"
+                  className="bi bi-play-circle icon"
                   viewBox="0 0 16 16"
                 >
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -586,6 +594,15 @@ const Dijkstra = () => {
                 Start Dijkstra
               </button>
             </form>
+            {isAuthenticated && currentDs && (
+              <div className="completed">
+                {userData.completedDSAlgo.includes(currentDs._id) ? (
+                  <Incompleted dsId={currentDs._id} />
+                ) : (
+                  <Completed dsId={currentDs._id} />
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

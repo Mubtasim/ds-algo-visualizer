@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import apiServiceJWT from "../ApiServiceJWT";
 import auth from "../utils/auth";
-import { setAuthentication } from "../features/authentication/authenticationSlice";
+import {
+  setAuthentication,
+  setUserData,
+} from "../features/authentication/authenticationSlice";
 // import { OAuth2Client } from "google-auth-library";
 import Header from "./Header";
 import { useDispatch } from "react-redux";
@@ -49,10 +52,17 @@ const SignIn = ({ toggleSignUp }) => {
     const formJson = Object.fromEntries(formData.entries());
     // console.log(formJson);
     const data = await apiServiceJWT.login(formJson);
-    localStorage.setItem("accessToken", data.accessToken);
+    const userData = {
+      email: data.data.email,
+      fullName: data.data.fullName,
+      completedDSAlgo: data.data.completedDSAlgo,
+    };
+    // localStorage.setItem("accessToken", data.accessToken);
+    localStorage.setItem("userData", JSON.stringify(userData));
     Cookies.set("accessToken", data.accessToken);
     // props.setIsAuthenticated(true);
     dispatch(setAuthentication(true));
+    dispatch(setUserData(userData));
     auth.login(() => navigate("/"));
   };
 

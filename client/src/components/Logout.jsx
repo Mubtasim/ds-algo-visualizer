@@ -5,7 +5,10 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import auth from "../utils/auth";
 import apiServiceJWT from "./../ApiServiceJWT";
-import { setAuthentication } from "../features/authentication/authenticationSlice";
+import {
+  setAuthentication,
+  setUserData,
+} from "../features/authentication/authenticationSlice";
 
 const Logout = () => {
   let navigate = useNavigate();
@@ -14,6 +17,7 @@ const Logout = () => {
   const handleClick = async () => {
     await removeToken();
     Cookies.remove("accessToken");
+    localStorage.removeItem("userData");
     handleAuth();
   };
 
@@ -24,19 +28,22 @@ const Logout = () => {
   const handleAuth = () => {
     // props.setIsAuthenticated(false);
     dispatch(setAuthentication(false));
+    dispatch(setUserData(null));
     auth.logout(() => navigate("/"));
   };
 
   return (
-    <section>
+    <div className="logout">
       <h2>Are you sure you want to log out?</h2>
-      <Link to="/">
-        <button className="confirm-btn">No</button>
-      </Link>
-      <button className="confirm-btn" onClick={() => handleClick()}>
-        Yes
-      </button>
-    </section>
+      <div className="logout__confirmation">
+        <Link to="/">
+          <button className="confirm-btn">No</button>
+        </Link>
+        <button className="confirm-btn" onClick={() => handleClick()}>
+          Yes
+        </button>
+      </div>
+    </div>
   );
 };
 

@@ -7,6 +7,11 @@ const Header = () => {
   const isAuthenticated = useSelector(
     (state) => state.authentication.isAuthenticated
   );
+  const userData = useSelector((state) => state.authentication.userData);
+
+  function getFirstName(fullName) {
+    return fullName.split(" ")[0];
+  }
 
   return (
     <div className="header container">
@@ -21,9 +26,13 @@ const Header = () => {
       </ul>
       <div className="header__user">
         {!isAuthenticated ? (
-          <Link to="/userauth">Login/Register</Link>
+          <Link to="/userauth" className="header__auth">
+            Login/Register
+          </Link>
         ) : (
-          <Link to="/logout">Logout</Link>
+          <Link to="/logout" className="header__auth">
+            {getFirstName(userData.fullName)} | Logout
+          </Link>
         )}
       </div>
     </div>

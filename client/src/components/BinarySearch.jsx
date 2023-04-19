@@ -8,6 +8,8 @@ import {
 } from "../features/binarySearch/binarySearchSlice";
 import Header from "./Header";
 import BinaryItem from "./BinaryItem";
+import Incompleted from "./Incompleted";
+import Completed from "./completed";
 
 const BinarySearch = () => {
   const [screenSize, setScreenSize] = useState(getCurrenDimension());
@@ -15,6 +17,11 @@ const BinarySearch = () => {
   const items = useSelector((state) => state.binarySearch.items);
   const itemToFind = useSelector((state) => state.binarySearch.itemToFind);
   const totalItems = useSelector((state) => state.binarySearch.totalItems);
+  const userData = useSelector((state) => state.authentication.userData);
+  const isAuthenticated = useSelector(
+    (state) => state.authentication.isAuthenticated
+  );
+  const currentDs = useSelector((state) => state.dsAndAlgo.currentDs);
 
   const dispatch = useDispatch();
 
@@ -263,6 +270,15 @@ const BinarySearch = () => {
               Start Searching
             </button>
           </form>
+          {isAuthenticated && currentDs && (
+            <div className="completed">
+              {userData.completedDSAlgo.includes(currentDs._id) ? (
+                <Incompleted dsId={currentDs._id} />
+              ) : (
+                <Completed dsId={currentDs._id} />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

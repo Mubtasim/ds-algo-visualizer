@@ -28,11 +28,11 @@ const router = createBrowserRouter([
     element: <Stage />,
   },
   {
-    path: "/1",
+    path: "/dijkstra",
     element: <Dijkstra />,
   },
   {
-    path: "/2",
+    path: "/binarysearch",
     element: <BinarySearch />,
   },
   {
