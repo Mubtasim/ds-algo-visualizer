@@ -159,7 +159,10 @@ const SignIn = ({ toggleSignUp }) => {
       <Header />
       <div className="signIn">
         <form action="#" className="signIn__form form" onSubmit={handleSubmit}>
-          <label htmlFor="email">Email</label>
+          <h1 className="formTitle">Sign In</h1>
+          <label htmlFor="email" className="formlabel">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -167,7 +170,9 @@ const SignIn = ({ toggleSignUp }) => {
             value={state.email}
             onChange={handleChange}
           />
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className="formlabel">
+            Password
+          </label>
           <input
             type="password"
             name="password"
@@ -178,11 +183,10 @@ const SignIn = ({ toggleSignUp }) => {
           <button type="submit" className="button" disabled={validateForm()}>
             Sign In
           </button>
-          {/* <button onClick={handleSignIn}>Sign in with Google</button> */}
         </form>
         <div className="toggler">
-          Don't have an account?{" "}
-          <button className="button button-toggler" onClick={toggleSignUp}>
+          Don't have an account? &nbsp; &nbsp;
+          <button className="button button-outline" onClick={toggleSignUp}>
             Sign Up
           </button>
         </div>

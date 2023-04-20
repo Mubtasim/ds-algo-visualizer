@@ -9,6 +9,7 @@ import {
   setAuthentication,
   setUserData,
 } from "../features/authentication/authenticationSlice";
+import Header from "./Header";
 
 const Logout = () => {
   let navigate = useNavigate();
@@ -34,14 +35,20 @@ const Logout = () => {
 
   return (
     <div className="logout">
-      <h2>Are you sure you want to log out?</h2>
+      <Header />
       <div className="logout__confirmation">
-        <Link to="/">
-          <button className="confirm-btn">No</button>
-        </Link>
-        <button className="confirm-btn" onClick={() => handleClick()}>
-          Yes
-        </button>
+        <h1 className="logout__title">Are you sure you want to log out?</h1>
+        <div className="yesOrNo">
+          <button
+            className="button button-outline"
+            onClick={() => handleClick()}
+          >
+            Yes
+          </button>
+          <Link to="/">
+            <button className="button">No</button>
+          </Link>
+        </div>
       </div>
     </div>
   );

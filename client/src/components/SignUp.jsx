@@ -65,34 +65,43 @@ const SignUp = ({ toggleSignUp }) => {
       <div className="signUp">
         <h1 className="formTitle">Create Account</h1>
         <form action="#" className="signUp__form form" onSubmit={handleSubmit}>
-          <label htmlFor="name">Full Name</label>
+          <label htmlFor="name" className="formlabel">
+            Full Name
+          </label>
           <input
             type="text"
             name="fullName"
             value={state.fullName}
             onChange={handleChange}
+            placeholder="Full Name"
           />
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="formlabel">
+            Email
+          </label>
           <input
             type="email"
             name="email"
             value={state.email}
             onChange={handleChange}
+            placeholder="Email"
           />
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className="formlabel">
+            Password
+          </label>
           <input
             type="password"
             name="password"
             value={state.password}
             onChange={handleChange}
+            placeholder="Password"
           />
           <button type="submit" className="button" disabled={validateForm()}>
             Sign Up
           </button>
         </form>
         <div className="toggler">
-          Already a user?{" "}
-          <button className="button button-toggler" onClick={toggleSignUp}>
+          Already a user? &nbsp; &nbsp;
+          <button className="button button-outline" onClick={toggleSignUp}>
             Sign In
           </button>
         </div>

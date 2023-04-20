@@ -13,6 +13,7 @@ import Dijkstra from "./components/Dijkstra";
 import BinarySearch from "./components/BinarySearch";
 import UserAuth from "./components/UserAuth";
 import Logout from "./components/Logout";
+import BubbleSort from "./components/BubbleSort";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/binarysearch",
     element: <BinarySearch />,
+  },
+  {
+    path: "/bubblesort",
+    element: <BubbleSort />,
   },
   {
     path: "/userauth",
