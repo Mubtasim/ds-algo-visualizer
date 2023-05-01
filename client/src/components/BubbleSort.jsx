@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 import Incompleted from "./Incompleted";
@@ -8,6 +8,7 @@ import {
   updateTotalItems,
 } from "../features/bubbleSort/bubbleSortSlice";
 import BubbleSortNode from "./BubbleSortNode";
+import { setCurrentDs } from "../features/dsAndAlgos/dsAndAlgosSlice";
 
 const BubbleSort = () => {
   const [isTutorialText, setIsTutorialText] = useState(false);
@@ -22,8 +23,18 @@ const BubbleSort = () => {
     (state) => state.authentication.isAuthenticated
   );
   const currentDs = useSelector((state) => state.dsAndAlgo.currentDs);
+  const dsList = useSelector((state) => state.dsAndAlgo.dsList);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (dsList)
+      dsList.forEach((ds) => {
+        if (ds.slug === window.location.pathname.substring(1)) {
+          dispatch(setCurrentDs(ds));
+        }
+      });
+  }, []);
 
   function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -227,7 +238,7 @@ const BubbleSort = () => {
                 type="number"
                 placeholder="Item Count"
                 min="2"
-                max="20"
+                max="30"
                 name="itemCount"
               />
 

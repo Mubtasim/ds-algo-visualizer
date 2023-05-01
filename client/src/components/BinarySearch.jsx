@@ -10,9 +10,12 @@ import Header from "./Header";
 import BinaryItem from "./BinaryItem";
 import Incompleted from "./Incompleted";
 import Completed from "./completed";
+import { setCurrentDs } from "../features/dsAndAlgos/dsAndAlgosSlice";
 
 const BinarySearch = () => {
   const [screenSize, setScreenSize] = useState(getCurrenDimension());
+  const [isTutorialText, setIsTutorialText] = useState(false);
+  const [isTutorialVideo, setIsTutorialVideo] = useState(false);
 
   const items = useSelector((state) => state.binarySearch.items);
   const itemToFind = useSelector((state) => state.binarySearch.itemToFind);
@@ -22,8 +25,18 @@ const BinarySearch = () => {
     (state) => state.authentication.isAuthenticated
   );
   const currentDs = useSelector((state) => state.dsAndAlgo.currentDs);
+  const dsList = useSelector((state) => state.dsAndAlgo.dsList);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (dsList)
+      dsList.forEach((ds) => {
+        if (ds.slug === window.location.pathname.substring(1)) {
+          dispatch(setCurrentDs(ds));
+        }
+      });
+  }, []);
 
   function getCurrenDimension() {
     return {
@@ -210,77 +223,159 @@ const BinarySearch = () => {
   return (
     <div className="binarySearch">
       <Header />
-      <div className="visualize">
-        <div id="binaryInfos">
-          <div id="binaryValueToFind"></div>
-          <div id="leftBoundary"></div>
-          <div id="middle"></div>
-          <div id="rightBoundary"></div>
-          <div id="binaryFoundOrNot" style={{ color: "lightgreen" }}></div>
-          <div id="hoverValue"></div>
-        </div>
-        <div className="binarySearchStage">
-          <div className="binaryBars">
-            {items &&
-              items.map((item, idx) => {
-                const height = getRelativeHeight(
-                  items[totalItems - 1],
-                  item,
-                  50,
-                  400
-                );
-                const width = getRelativeWidth(screenSize.width, totalItems);
-                return (
-                  <BinaryItem
-                    key={idx}
-                    id={idx}
-                    value={item}
-                    width={width}
-                    height={height}
-                  />
-                );
-              })}
+
+      {isTutorialText && (
+        <div className="tutorialText">
+          <button
+            className="button skipTutorial"
+            onClick={() => setIsTutorialText(false)}
+          >
+            Skip Tutorial
+          </button>
+          <div className="tutorialText__text">
+            {currentDs && currentDs.tutorialText}
           </div>
         </div>
-        <div className="configurator">
-          <form className="createListForm" onSubmit={createItems}>
-            <label className="formlabel">Item Count</label>
-            <input
-              type="number"
-              name="itemCount"
-              placeholder="Item Count"
-              min="1"
-              max="5000"
-            />
-            <button type="submit" className="button">
-              Create List
-            </button>
-          </form>
-          <form action="" className="findNumberForm" onSubmit={binarySearch}>
-            <label className="formlabel">
-              Number to find (hover over the bars to the see their values)
-            </label>
-            <input
-              type="number"
-              name="numberToFind"
-              placeholder="Number to find"
-              onChange={(e) => setItemToFind(e)}
-            />
-            <button type="submit" className="button">
-              Start Searching
-            </button>
-          </form>
-          {isAuthenticated && currentDs && (
-            <div className="completed">
-              {userData.completedDSAlgo.includes(currentDs._id) ? (
-                <Incompleted dsId={currentDs._id} />
-              ) : (
-                <Completed dsId={currentDs._id} />
-              )}
-            </div>
-          )}
+      )}
+
+      {isTutorialVideo && (
+        <div className="tutorialVideo">
+          {/* <iframe width="420" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+            </iframe> */}
+          <button
+            className="button skipTutorial"
+            onClick={() => setIsTutorialVideo(false)}
+          >
+            Skip Tutorial Video
+          </button>
+          <iframe
+            width="560"
+            height="315"
+            src={currentDs.tutorialVideoUrl}
+            title="Binary Search Algorithm in 100 Seconds"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
         </div>
-      </div>
+      )}
+
+      {!isTutorialText && !isTutorialVideo && (
+        <div className="visualize">
+          <div id="binaryInfos">
+            <div id="binaryValueToFind"></div>
+            <div id="leftBoundary"></div>
+            <div id="middle"></div>
+            <div id="rightBoundary"></div>
+            <div id="binaryFoundOrNot" style={{ color: "lightgreen" }}></div>
+            <div id="hoverValue"></div>
+          </div>
+          <div className="stageAndInfo">
+            <div className="info container">
+              <h1 className="title">Binary Search</h1>
+              <button
+                className="button button-outline"
+                onClick={() => setIsTutorialText(true)}
+              >
+                <div className="button-text">Show Tutorial</div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-info-circle icon"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                </svg>
+              </button>
+              <button
+                className="button button-outline"
+                onClick={() => setIsTutorialVideo(true)}
+              >
+                <div className="button-text">Play Tutorial Video</div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-play-circle icon"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                  <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
+                </svg>
+              </button>
+            </div>
+            <div className="binarySearchStage">
+              <div className="binaryBars">
+                {items &&
+                  items.map((item, idx) => {
+                    const height = getRelativeHeight(
+                      items[totalItems - 1],
+                      item,
+                      50,
+                      400
+                    );
+                    const width = getRelativeWidth(
+                      screenSize.width,
+                      totalItems
+                    );
+                    return (
+                      <BinaryItem
+                        key={idx}
+                        id={idx}
+                        value={item}
+                        width={width}
+                        height={height}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+
+          <div className="configurator">
+            <form className="createListForm" onSubmit={createItems}>
+              <label className="formlabel">Item Count</label>
+              <input
+                type="number"
+                name="itemCount"
+                placeholder="Item Count"
+                min="1"
+                max="5000"
+              />
+              <button type="submit" className="button">
+                Create List
+              </button>
+            </form>
+            <form action="" className="findNumberForm" onSubmit={binarySearch}>
+              <label className="formlabel">
+                Number to find (hover over the bars to the see their values)
+              </label>
+              <input
+                type="number"
+                name="numberToFind"
+                placeholder="Number to find"
+                onChange={(e) => setItemToFind(e)}
+              />
+              <button type="submit" className="button">
+                Start Searching
+              </button>
+            </form>
+            {isAuthenticated && currentDs && (
+              <div className="completed">
+                {userData.completedDSAlgo.includes(currentDs._id) ? (
+                  <Incompleted dsId={currentDs._id} />
+                ) : (
+                  <Completed dsId={currentDs._id} />
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

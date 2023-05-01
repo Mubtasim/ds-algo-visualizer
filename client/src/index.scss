@@ -301,7 +301,8 @@ line {
 }
 
 .disjkstra,
-.bubbleSort {
+.bubbleSort,
+.binarySearch {
   // margin: var(--header-height) 0 0 0;
   height: calc(100vh - var(--header-height));
 }
@@ -509,9 +510,9 @@ line {
   }
 }
 
-.binarySearch {
-  height: calc(100vh - var(--header-height));
-}
+// .binarySearch {
+//   height: calc(100vh - var(--header-height));
+// }
 
 .binarySearchStage {
   display: flex;
@@ -520,6 +521,7 @@ line {
   padding: 1rem 1rem 3rem 1rem;
   align-items: center;
   background-color: black;
+  height: 100%;
 }
 
 .binaryBars {

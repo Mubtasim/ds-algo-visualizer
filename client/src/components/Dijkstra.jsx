@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Viva from "vivagraphjs";
 
 import Header from "./Header";
 import Incompleted from "./Incompleted";
 import Completed from "./completed";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentDs } from "../features/dsAndAlgos/dsAndAlgosSlice";
 
 const Dijkstra = () => {
   const [totalNode, setTotalNode] = useState(-1);
@@ -25,6 +26,18 @@ const Dijkstra = () => {
     (state) => state.authentication.isAuthenticated
   );
   const currentDs = useSelector((state) => state.dsAndAlgo.currentDs);
+  const dsList = useSelector((state) => state.dsAndAlgo.dsList);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (dsList)
+      dsList.forEach((ds) => {
+        if (ds.slug === window.location.pathname.substring(1)) {
+          dispatch(setCurrentDs(ds));
+        }
+      });
+  }, []);
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
