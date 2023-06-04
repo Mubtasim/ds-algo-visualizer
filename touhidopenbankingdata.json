@@ -1,0 +1,663 @@
+{
+    "accounts": [
+        {
+            "type": "CHECKING",
+            "usage": "PERSONAL",
+            "number": "account 01",
+            "owner": "Touhid Mahmud",
+            "balance": 4512,
+            "balanceDate": "2023-06-03T15:27:27Z",
+            "owners": [
+                {
+                    "name": "Touhid Mahmud"
+                }
+            ],
+            "bank": {
+                "name": "Algoan Demo"
+            },
+            "currency": "EUR",
+            "transactions": [
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-03T15:27:27Z"
+                    },
+                    "description": "Transfer from 137034945732 to 137034767203",
+                    "amount": 500
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-03T15:12:44Z"
+                    },
+                    "description": "Transfer from 137034945732 to 137034767203",
+                    "amount": 500
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-03T15:12:05Z"
+                    },
+                    "description": "Transfer from 137034945732 to 137034767203",
+                    "amount": 500
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-03T12:45:37Z"
+                    },
+                    "description": "Transfer from 137034945732 to 137034767203",
+                    "amount": 500
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-03T12:34:01Z"
+                    },
+                    "description": "Transfer from 137034945732 to 137034767203",
+                    "amount": 1000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-03T12:28:56Z"
+                    },
+                    "description": "Transfer from 137034945732 to 137034767203",
+                    "amount": 500
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T05:06:55Z"
+                    },
+                    "description": "Transfer from 137034872244 to 137034767203",
+                    "amount": 1000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:30Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871289",
+                    "amount": -88
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:29Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871289",
+                    "amount": -88
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:29Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871289",
+                    "amount": -88
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:29Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871289",
+                    "amount": -88
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:28Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871234",
+                    "amount": -1005
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:28Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871234",
+                    "amount": -1005
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:28Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871234",
+                    "amount": -1005
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:27Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870826",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:27Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870826",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:27Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870826",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:27Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870826",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:27Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870826",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:26Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870826",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:26Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870826",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:26Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870699",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:25Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870699",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:25Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870699",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:25Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870699",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:25Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870699",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:24Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:24Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:24Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:23Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:23Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:23Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:23Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:23Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-06-01T03:08:23Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T15:24:16Z"
+                    },
+                    "description": "Transfer from 137034872244 to 137034767203",
+                    "amount": 1400
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T15:21:00Z"
+                    },
+                    "description": "Transfer from 137034872244 to 137034767203",
+                    "amount": 1400
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T14:00:09Z"
+                    },
+                    "description": "ACH CREDIT [ach_11j7ejkxmfnt8r][ppd][standard]",
+                    "amount": -4000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T14:00:09Z"
+                    },
+                    "description": "Release hold ttx_11j7ejkxmfnt8t",
+                    "amount": 4000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T14:00:08Z"
+                    },
+                    "description": "ACH CREDIT [ach_11j7eh8tmfnkdr][ppd][standard]",
+                    "amount": -4000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T14:00:08Z"
+                    },
+                    "description": "Release hold ttx_11j7eh8tmfnkdt",
+                    "amount": 4000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T14:00:08Z"
+                    },
+                    "description": "ACH CREDIT [ach_11j7ejd0mfnt18][ppd][standard]",
+                    "amount": -200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T14:00:08Z"
+                    },
+                    "description": "Release hold ttx_11j7ejd0mfnt1a",
+                    "amount": 200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T13:24:13Z"
+                    },
+                    "description": "ACH Pending",
+                    "amount": -4000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T13:20:32Z"
+                    },
+                    "description": "ACH Pending",
+                    "amount": -200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T13:01:14Z"
+                    },
+                    "description": "ACH Pending",
+                    "amount": -4000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T10:46:28Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871289",
+                    "amount": -88
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T10:46:11Z"
+                    },
+                    "description": "Transfer from 137034871289 to 137034767203",
+                    "amount": 1000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T10:41:29Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871289",
+                    "amount": -88
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T10:41:27Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871289",
+                    "amount": -88
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T10:41:21Z"
+                    },
+                    "description": "Transfer from 137034871289 to 137034767203",
+                    "amount": 1000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T10:41:16Z"
+                    },
+                    "description": "Transfer from 137034871289 to 137034767203",
+                    "amount": 1000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T10:39:26Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034871234",
+                    "amount": -1005
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T10:39:18Z"
+                    },
+                    "description": "Transfer from 137034871234 to 137034767203",
+                    "amount": 1000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T08:10:47Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034766895",
+                    "amount": -1000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T08:01:26Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034766895",
+                    "amount": -1000
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T07:40:34Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870826",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T07:40:27Z"
+                    },
+                    "description": "Transfer from 137034870826 to 137034767203",
+                    "amount": 1400
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T07:29:03Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034870699",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T07:28:56Z"
+                    },
+                    "description": "Transfer from 137034870699 to 137034767203",
+                    "amount": 1400
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T04:10:45Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T04:10:43Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T04:08:35Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -53
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T03:41:22Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -130
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T03:41:03Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -130
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T03:41:02Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -130
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T03:40:59Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -130
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-31T03:40:57Z"
+                    },
+                    "description": "Transfer from 137034767203 to 137034803036",
+                    "amount": -130
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-30T12:10:48Z"
+                    },
+                    "description": "Transfer from 137034803036 to 137034767203",
+                    "amount": 1400
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-30T12:08:34Z"
+                    },
+                    "description": "Transfer from 137034803036 to 137034767203",
+                    "amount": 1400
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-30T07:05:37Z"
+                    },
+                    "description": "WIRE [wire_11j78bkbmer802]",
+                    "amount": -200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-30T07:05:37Z"
+                    },
+                    "description": "Release hold ttx_11j7b81qmf2bdn",
+                    "amount": 200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-30T07:05:27Z"
+                    },
+                    "description": "WIRE HOLD [wire_11j78bkbmer802]",
+                    "amount": -200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-28T20:00:13Z"
+                    },
+                    "description": "ACH CREDIT [ach_11j77b5wmen6ra][ppd][standard]",
+                    "amount": -200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-28T20:00:13Z"
+                    },
+                    "description": "Release hold ttx_11j77b5wmen6rc",
+                    "amount": 200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-28T19:34:20Z"
+                    },
+                    "description": "ACH Pending",
+                    "amount": -200
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-28T15:00:15Z"
+                    },
+                    "description": "ACH CREDIT [ach_11j76rrgmemn1x][ppd][standard]",
+                    "amount": -100
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-28T15:00:15Z"
+                    },
+                    "description": "Release hold ttx_11j76rrgmemn1z",
+                    "amount": 100
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-28T14:20:00Z"
+                    },
+                    "description": "ACH Pending",
+                    "amount": -100
+                },
+                {
+                    "currency": "EUR",
+                    "dates": {
+                        "debitedAt": "2023-05-28T10:13:35Z"
+                    },
+                    "description": "Initial funding",
+                    "amount": 5000
+                }
+            ]
+        }
+    ]
+}
